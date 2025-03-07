@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,8 +42,9 @@ public class ProductController {
 
 	@GetMapping("/fetch")
 	@ResponseStatus(HttpStatus.OK)
-	private ResponseEntity<List<ProductDto>> fetchProducts() {
-		return ResponseEntity.ofNullable(service.fetchProducts());
+	private ResponseEntity<List<ProductDto>> fetchProducts(@RequestParam(defaultValue = "0") int pageNo,
+			@RequestParam(defaultValue = "10") int pageSize) {
+		return ResponseEntity.ofNullable(service.fetchProducts(pageNo, pageSize));
 	}
 
 	@GetMapping("/fetch/catgory/{category}")

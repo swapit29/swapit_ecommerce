@@ -1,6 +1,8 @@
 package com.swapit.ecommerce.service;
 
 import java.util.List;
+
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.swapit.ecommerce.dto.FeedbackDto;
@@ -34,8 +36,9 @@ public class ProductService {
 		return repo.findById(productId).orElseThrow(() -> new ProductInvalidException("Product Not Found"));
 	}
 
-	public List<ProductDto> fetchProducts() {
-		List<Product> products = repo.findAll();
+	public List<ProductDto> fetchProducts(int pageNo, int pageSize) {
+		PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
+		List<Product> products = repo.findAll(pageRequest).getContent();
 		return CommonUtility.getProductsDto(products);
 	}
 
